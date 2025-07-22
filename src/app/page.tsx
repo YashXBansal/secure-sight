@@ -49,6 +49,7 @@ export default function Home() {
         );
         setAllIncidents(combinedIncidents);
 
+        // This part is new: we derive cameras directly inside the effect
         const cameras = Array.from(
           new Map(
             combinedIncidents
@@ -58,8 +59,16 @@ export default function Home() {
         );
         setAllCameras(cameras);
 
+        // And set the initial state based on the fetched data
         if (combinedIncidents.length > 0) {
-          handleSelectIncident(combinedIncidents[0]);
+          const initialIncident = combinedIncidents[0];
+          const initialCam = initialIncident.camera;
+          const otherCams = cameras.filter((c) => c.id !== initialCam.id);
+
+          setActiveIncident(initialIncident);
+          setMainDisplayCam(initialCam);
+          if (otherCams.length > 0) setThumb1Cam(otherCams[0]);
+          if (otherCams.length > 1) setThumb2Cam(otherCams[1]);
         }
       } catch (err) {
         setError(
@@ -70,7 +79,10 @@ export default function Home() {
       }
     };
     fetchData();
-  }, [handleSelectIncident]);
+    // FIXED: The dependency array is now empty [].
+    // This tells React to run this effect ONLY ONCE when the component mounts.
+    // This stops the infinite loop of GET requests.
+  }, []);
 
   const handleResolveIncident = (incidentId: string) => {
     setAllIncidents((prev) =>
@@ -85,7 +97,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col bg-slate-900">
-      {/* Pass the activePage prop to highlight the 'Dashboard' link */}
       <Navbar activePage="dashboard" />
       <div className="flex-grow container mx-auto p-4 md:p-6 lg:p-8">
         {isLoading ? (
