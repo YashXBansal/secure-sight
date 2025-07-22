@@ -3,77 +3,100 @@
 import { Video, Camera as CameraIcon } from "lucide-react";
 import type { IncidentWithCamera, Camera } from "@/types/incident";
 
-interface IncidentPlayerProps {
-  incident: IncidentWithCamera | null;
-  allCameras: Camera[];
+interface CameraDisplayProps {
+  camera: Camera | null;
+  isMain: boolean;
+  activeIncidentUrl?: string | null;
 }
 
-const IncidentPlayer = ({ incident, allCameras }: IncidentPlayerProps) => {
-  // A default "live feed" video for when no specific incident is selected.
-  const liveFeedUrl =
-    "https://assets.mixkit.co/videos/preview/mixkit-security-camera-of-a-courtyard-41641-large.mp4";
+// A reusable component for a single camera display
+const CameraView = ({
+  camera,
+  isMain,
+  activeIncidentUrl,
+}: CameraDisplayProps) => {
+  if (!camera) return <div className="w-full h-full bg-black rounded-md"></div>;
 
-  // Determine the video source: selected incident's thumbnail or the live feed.
-  // We will use a GIF for the main player as well for simplicity and performance.
-  const videoSource = incident ? incident.thumbnailUrl : liveFeedUrl;
-  const isVideo = videoSource.endsWith(".mp4");
+  // If there's an active incident URL, use it. Otherwise, use the camera's live feed.
+  const sourceUrl = activeIncidentUrl || camera.liveFeedUrl;
+  const isVideo = sourceUrl.endsWith(".mp4");
+
+  return (
+    <div className="relative w-full h-full bg-black rounded-lg overflow-hidden shadow-inner-lg">
+      {isVideo ? (
+        <video
+          key={sourceUrl}
+          className="w-full h-full object-cover"
+          src={sourceUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      ) : (
+        <img
+          key={sourceUrl}
+          src={sourceUrl}
+          alt={camera.name}
+          width={isMain ? 1280 : 600}
+          height={isMain ? 720 : 400}
+          className="w-full h-full object-cover animate-fade-in"
+        />
+      )}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+      <div className={`absolute bottom-2 left-2 md:bottom-4 md:left-4`}>
+        <h3
+          className={`font-bold text-white flex items-center space-x-2 ${
+            isMain ? "text-xl" : "text-sm"
+          }`}
+        >
+          <Video
+            size={isMain ? 20 : 14}
+            className={
+              activeIncidentUrl
+                ? "text-red-500 animate-pulse"
+                : "text-green-500"
+            }
+          />
+          <span>{camera.name}</span>
+        </h3>
+        {isMain && <p className="text-slate-300 text-sm">{camera.location}</p>}
+      </div>
+    </div>
+  );
+};
+
+interface IncidentPlayerProps {
+  mainCam: Camera | null;
+  thumb1: Camera | null;
+  thumb2: Camera | null;
+  activeIncident: IncidentWithCamera | null;
+}
+
+const IncidentPlayer = ({
+  mainCam,
+  thumb1,
+  thumb2,
+  activeIncident,
+}: IncidentPlayerProps) => {
+  // Determine if the main display should show incident footage
+  const mainDisplayIncidentUrl =
+    activeIncident && activeIncident.camera.id === mainCam?.id
+      ? activeIncident.thumbnailUrl
+      : null;
 
   return (
     <div className="flex flex-col h-full bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 shadow-lg">
-      <div className="relative flex-grow w-full bg-black rounded-lg overflow-hidden mb-4 shadow-inner-lg">
-        {isVideo ? (
-          <video
-            key={videoSource} // Use key to force re-render on source change
-            className="w-full h-full object-cover"
-            src={videoSource}
-            autoPlay
-            loop
-            muted
-            playsInline // Important for mobile browsers
-          />
-        ) : (
-          <img
-            key={videoSource}
-            src={videoSource}
-            alt={incident?.type || "Live Feed"}
-            width={1280}
-            height={720}
-            className="w-full h-full object-cover animate-fade-in"
-          />
-        )}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-        <div className="absolute bottom-4 left-4">
-          <h3 className="text-xl font-bold text-white flex items-center space-x-2">
-            <Video size={20} className="text-red-500 animate-pulse" />
-            <span>{incident?.camera.name || "Live Feed"}</span>
-          </h3>
-          <p className="text-slate-300 text-sm">
-            {incident?.camera.location || "Main Courtyard"}
-          </p>
-        </div>
+      <div className="flex-grow mb-4">
+        <CameraView
+          camera={mainCam}
+          isMain={true}
+          activeIncidentUrl={mainDisplayIncidentUrl}
+        />
       </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {allCameras.slice(0, 2).map((cam) => (
-          <div
-            key={cam.id}
-            className="relative bg-black rounded-md overflow-hidden border border-slate-700/50"
-          >
-            <img
-              src={`https://placehold.co/600x400/000000/FFFFFF?text=${encodeURIComponent(
-                cam.name
-              )}`}
-              alt={`${cam.name} feed`}
-              width={600}
-              height={400}
-              className="w-full h-full object-cover opacity-70"
-            />
-            <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded-md text-xs flex items-center space-x-1">
-              <CameraIcon size={12} />
-              <span>{cam.name}</span>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 h-32 md:h-40">
+        <CameraView camera={thumb1} isMain={false} />
+        <CameraView camera={thumb2} isMain={false} />
       </div>
     </div>
   );

@@ -2,7 +2,8 @@ export interface Camera {
   id: string;
   name: string;
   location: string;
-  createdAt: string; // Added to match your new schema
+  liveFeedUrl: string;
+  createdAt: string;
 }
 
 export interface IncidentWithCamera {

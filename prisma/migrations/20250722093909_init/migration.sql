@@ -3,6 +3,7 @@ CREATE TABLE "Camera" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "location" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "liveFeedUrl" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

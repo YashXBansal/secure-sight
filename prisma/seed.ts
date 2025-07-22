@@ -12,20 +12,34 @@ async function main() {
   console.log("Start seeding...");
   await prisma.incident.deleteMany();
   await prisma.camera.deleteMany();
-  console.log("Cleared previous data.");
+  console.log("Cleared old data.");
 
+  // Create cameras with unique live feed URLs
   const camera1 = await prisma.camera.create({
-    data: { name: "Camera 01", location: "Shop Floor A" },
+    data: {
+      name: "Shop Floor Cam",
+      location: "Main Shop Floor",
+      liveFeedUrl:
+        "https://assets.mixkit.co/videos/preview/mixkit-a-man-walking-on-a_sandy-beach-41505-large.mp4",
+    },
   });
   const camera2 = await prisma.camera.create({
-    data: { name: "Camera 02", location: "Vault Door" },
+    data: {
+      name: "Vault Cam",
+      location: "Underground Vault Door",
+      liveFeedUrl:
+        "https://assets.mixkit.co/videos/preview/mixkit-surveillance-camera-on-a-wall-41640-large.mp4",
+    },
   });
   const camera3 = await prisma.camera.create({
-    data: { name: "Camera 03", location: "Main Entrance" },
+    data: {
+      name: "Entrance Cam",
+      location: "Building Main Entrance",
+      liveFeedUrl:
+        "https://assets.mixkit.co/videos/preview/mixkit-security-camera-of-a-courtyard-41641-large.mp4",
+    },
   });
-  console.log(
-    `Created cameras: ${camera1.name}, ${camera2.name}, ${camera3.name}`
-  );
+  console.log("Created cameras with live feeds.");
 
   const incidentsData = [
     {
@@ -47,7 +61,25 @@ async function main() {
       resolved: false,
     },
     {
+      cameraId: camera2.id,
+      type: "Unauthorised Access",
+      tsStart: subHours(1),
+      tsEnd: subHours(0.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2d2cWp6a2ZqN2w1a2F0d2g4c2w5b3c5eDQ0eXh6eXJ6eXg2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/j5bsZ0k4i4iJ2/giphy.gif",
+      resolved: false,
+    },
+    {
       cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(2),
+      tsEnd: subHours(1.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera2.id,
       type: "Face Recognised",
       tsStart: subHours(2),
       tsEnd: subHours(1.99),
@@ -65,21 +97,12 @@ async function main() {
       resolved: false,
     },
     {
-      cameraId: camera3.id,
-      type: "Unauthorised Access",
-      tsStart: subHours(10),
-      tsEnd: subHours(9.99),
-      thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2d2cWp6a2ZqN2w1a2F0d2g4c2w5b3c5eDQ0eXh6eXJ6eXg2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/j5bsZ0k4i4iJ2/giphy.gif",
-      resolved: false,
-    },
-    {
       cameraId: camera1.id,
-      type: "Face Recognised",
-      tsStart: subHours(15),
-      tsEnd: subHours(14.99),
+      type: "Unauthorised Access",
+      tsStart: subHours(2.5),
+      tsEnd: subHours(2.49),
       thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: false,
     },
     {
@@ -88,71 +111,44 @@ async function main() {
       tsStart: subHours(48),
       tsEnd: subHours(47.99),
       thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
+      resolved: true,
+    },
+    {
+      cameraId: camera1.id,
+      type: "Unauthorised Access",
+      tsStart: subHours(48),
+      tsEnd: subHours(47.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: true,
     },
     {
       cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
+      type: "Unauthorised Access",
+      tsStart: subHours(48),
+      tsEnd: subHours(47.99),
       thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
-      resolved: true,
-    },
-    {
-      cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
-      thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: false,
     },
     {
       cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
+      type: "Unauthorised Access",
+      tsStart: subHours(48),
+      tsEnd: subHours(47.99),
       thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: false,
     },
     {
-      cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
+      cameraId: camera2.id,
+      type: "Unauthorised Access",
+      tsStart: subHours(48),
+      tsEnd: subHours(47.99),
       thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: false,
-    },
-    {
-      cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
-      thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
-      resolved: false,
-    },
-    {
-      cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
-      thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
-      resolved: false,
-    },
-    {
-      cameraId: camera3.id,
-      type: "Face Recognised",
-      tsStart: subHours(72),
-      tsEnd: subHours(71.99),
-      thumbnailUrl:
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
-      resolved: true,
     },
   ];
 
