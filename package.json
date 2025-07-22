@@ -8,11 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
-   
   "prisma": {
     "seed": "ts-node -P prisma/tsconfig.json prisma/seed.ts"
   },
-
   "dependencies": {
     "@prisma/client": "^6.12.0",
     "@react-three/drei": "^10.5.1",
