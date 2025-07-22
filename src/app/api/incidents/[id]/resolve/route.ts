@@ -1,18 +1,19 @@
-// app/api/incidents/[id]/resolve/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function PATCH(
-  _request: NextRequest,
-  // This is the correct, non-Promise type
-  { params }: { params: { id: string } }
-) {
+// Define the type for the context object explicitly
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
+
+export async function PATCH(request: NextRequest, context: RouteContext) {
   try {
-    // No 'await' needed here
-    const incidentId = params.id;
+    // Access the id from the context object
+    const incidentId = context.params.id;
 
     if (!incidentId) {
       return new NextResponse("Incident ID is required", { status: 400 });
@@ -25,8 +26,8 @@ export async function PATCH(
 
     return NextResponse.json(updatedIncident);
   } catch (error) {
-    // You can safely log params.id here if you want
-    console.error(`Error resolving incident ${params?.id}:`, error);
+    // Log the id from the context object
+    console.error(`Error resolving incident ${context.params?.id}:`, error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
