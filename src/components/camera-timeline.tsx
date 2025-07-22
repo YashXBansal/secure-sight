@@ -154,6 +154,7 @@ const CameraTimeline = ({
     }
   };
 
+  // This useEffect now correctly depends on the values it uses.
   useEffect(() => {
     const selectedMarker = allIncidentMarkers.find(
       (m) => m.id === selectedIncidentId
@@ -161,7 +162,8 @@ const CameraTimeline = ({
     if (selectedMarker) {
       setScrubberPosition(selectedMarker.position);
     }
-  }, [selectedIncidentId]);
+    // FIXED: Added the missing dependencies to the array.
+  }, [selectedIncidentId, allIncidentMarkers]);
 
   const renderTimelineContent = () => {
     if (viewMode === "mobile") {

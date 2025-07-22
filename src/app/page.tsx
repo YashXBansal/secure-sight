@@ -1,11 +1,11 @@
 // app/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/navbar";
 import IncidentPlayer from "@/components/incident-player";
 import IncidentList from "@/components/incident-list";
-import CameraTimeline from "@/components/camera-timeline"; // <-- Import the NEW component
+import CameraTimeline from "@/components/camera-timeline";
 import type { IncidentWithCamera, Camera } from "@/types/incident";
 
 export default function Home() {
@@ -19,6 +19,18 @@ export default function Home() {
   const [mainDisplayCam, setMainDisplayCam] = useState<Camera | null>(null);
   const [thumb1Cam, setThumb1Cam] = useState<Camera | null>(null);
   const [thumb2Cam, setThumb2Cam] = useState<Camera | null>(null);
+
+  const handleSelectIncident = useCallback(
+    (incident: IncidentWithCamera) => {
+      setActiveIncident(incident);
+      const incidentCam = incident.camera;
+      const otherCams = allCameras.filter((c) => c.id !== incidentCam.id);
+      setMainDisplayCam(incidentCam);
+      if (otherCams.length > 0) setThumb1Cam(otherCams[0]);
+      if (otherCams.length > 1) setThumb2Cam(otherCams[1]);
+    },
+    [allCameras]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,10 +58,6 @@ export default function Home() {
         );
         setAllCameras(cameras);
 
-        if (cameras.length > 0) setMainDisplayCam(cameras[0]);
-        if (cameras.length > 1) setThumb1Cam(cameras[1]);
-        if (cameras.length > 2) setThumb2Cam(cameras[2]);
-
         if (combinedIncidents.length > 0) {
           handleSelectIncident(combinedIncidents[0]);
         }
@@ -62,16 +70,7 @@ export default function Home() {
       }
     };
     fetchData();
-  }, []);
-
-  const handleSelectIncident = (incident: IncidentWithCamera) => {
-    setActiveIncident(incident);
-    const incidentCam = incident.camera;
-    const otherCams = allCameras.filter((c) => c.id !== incidentCam.id);
-    setMainDisplayCam(incidentCam);
-    if (otherCams.length > 0) setThumb1Cam(otherCams[0]);
-    if (otherCams.length > 1) setThumb2Cam(otherCams[1]);
-  };
+  }, [handleSelectIncident]);
 
   const handleResolveIncident = (incidentId: string) => {
     setAllIncidents((prev) =>
@@ -86,7 +85,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col bg-slate-900">
-      <Navbar />
+      {/* Pass the activePage prop to highlight the 'Dashboard' link */}
+      <Navbar activePage="dashboard" />
       <div className="flex-grow container mx-auto p-4 md:p-6 lg:p-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-full text-slate-400">
@@ -107,7 +107,6 @@ export default function Home() {
                   activeIncident={activeIncident}
                 />
               </div>
-              {/* Replace the old timeline with the new one */}
               <CameraTimeline
                 incidents={allIncidents}
                 cameras={allCameras}
