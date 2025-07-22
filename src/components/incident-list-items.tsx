@@ -54,7 +54,6 @@ const IncidentListItem = ({
   onResolve,
 }: IncidentListItemProps) => {
   const [isFadingOut, setIsFadingOut] = useState(false);
-  const [imgSrc, setImgSrc] = useState(incident.thumbnailUrl);
   const { Icon, color } = getIncidentTypeDetails(incident.type);
 
   const handleResolveClick = (e: React.MouseEvent) => {
@@ -77,14 +76,11 @@ const IncidentListItem = ({
                  }`}
     >
       <img
-        src={imgSrc}
+        src={incident.thumbnailUrl}
         alt={incident.type}
         width={96}
         height={64}
         className="w-24 h-16 object-cover rounded-md bg-slate-700 flex-shrink-0"
-        onError={() => {
-          setImgSrc("https://placehold.co/96x64/1e293b/ffffff?text=No+Img");
-        }}
       />
       <div className="flex-grow min-w-0">
         <div className={`flex items-center text-sm font-semibold ${color}`}>

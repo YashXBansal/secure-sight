@@ -27,124 +27,139 @@ async function main() {
     `Created cameras: ${camera1.name}, ${camera2.name}, ${camera3.name}`
   );
 
-  const incidentsToCreate = [
+  const incidentsData = [
     {
-      camera: camera1,
-      type: "Unauthorised Access",
-      tsStart: subHours(1),
-      tsEnd: subHours(0.99),
-      thumbnailUrl:
-        "https://placehold.co/600x400/fb923c/ffffff?text=Access+Alert",
-      resolved: false,
-    },
-    {
-      camera: camera2,
+      cameraId: camera2.id,
       type: "Gun Threat",
       tsStart: subHours(0.5),
       tsEnd: subHours(0.49),
       thumbnailUrl:
-        "https://placehold.co/600x400/dc2626/ffffff?text=URGENT:+Gun+Threat",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW81c2l4c3g2d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPoZniJ2hq8IItG/giphy.gif",
       resolved: false,
     },
     {
-      camera: camera3,
+      cameraId: camera1.id,
+      type: "Unauthorised Access",
+      tsStart: subHours(1),
+      tsEnd: subHours(0.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2d2cWp6a2ZqN2w1a2F0d2g4c2w5b3c5eDQ0eXh6eXJ6eXg2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/j5bsZ0k4i4iJ2/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
       type: "Face Recognised",
       tsStart: subHours(2),
       tsEnd: subHours(1.99),
       thumbnailUrl:
-        "https://placehold.co/600x400/3b82f6/ffffff?text=VIP+Recognised",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
       resolved: false,
     },
     {
-      camera: camera1,
+      cameraId: camera1.id,
       type: "Unauthorised Access",
       tsStart: subHours(2.5),
       tsEnd: subHours(2.49),
       thumbnailUrl:
-        "https://placehold.co/600x400/fb923c/ffffff?text=Access+Alert",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3o3d3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1g0ODwY6t2H84/giphy.gif",
       resolved: false,
     },
     {
-      camera: camera3,
+      cameraId: camera3.id,
       type: "Unauthorised Access",
       tsStart: subHours(10),
       tsEnd: subHours(9.99),
       thumbnailUrl:
-        "https://placehold.co/600x400/fb923c/ffffff?text=Access+Alert",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2d2cWp6a2ZqN2w1a2F0d2g4c2w5b3c5eDQ0eXh6eXJ6eXg2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/j5bsZ0k4i4iJ2/giphy.gif",
       resolved: false,
     },
     {
-      camera: camera1,
+      cameraId: camera1.id,
       type: "Face Recognised",
       tsStart: subHours(15),
       tsEnd: subHours(14.99),
       thumbnailUrl:
-        "https://placehold.co/600x400/3b82f6/ffffff?text=Watchlist+Match",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
       resolved: false,
     },
     {
-      camera: camera2,
+      cameraId: camera2.id,
       type: "Unauthorised Access",
-      tsStart: subHours(18),
-      tsEnd: subHours(17.99),
+      tsStart: subHours(48),
+      tsEnd: subHours(47.99),
       thumbnailUrl:
-        "https://placehold.co/600x400/fb923c/ffffff?text=Late+Access+Alert",
-      resolved: false,
-    },
-    {
-      camera: camera2,
-      type: "Gun Threat",
-      tsStart: subHours(20),
-      tsEnd: subHours(19.99),
-      thumbnailUrl:
-        "https://placehold.co/600x400/dc2626/ffffff?text=Gun+Threat+2",
-      resolved: false,
-    },
-    {
-      camera: camera1,
-      type: "Face Recognised",
-      tsStart: subHours(22),
-      tsEnd: subHours(21.99),
-      thumbnailUrl:
-        "https://placehold.co/600x400/3b82f6/ffffff?text=Known+Face",
-      resolved: false,
-    },
-    {
-      camera: camera3,
-      type: "Unauthorised Access",
-      tsStart: subHours(24),
-      tsEnd: subHours(23.99),
-      thumbnailUrl:
-        "https://placehold.co/600x400/fb923c/ffffff?text=Old+Access+Alert",
-      resolved: false,
-    },
-    {
-      camera: camera2,
-      type: "Face Recognised",
-      tsStart: subHours(5),
-      tsEnd: subHours(4.99),
-      thumbnailUrl:
-        "https://placehold.co/600x400/3b82f6/ffffff?text=Visitor+Match",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
       resolved: true,
     },
     {
-      camera: camera1,
-      type: "Gun Threat",
-      tsStart: subHours(8),
-      tsEnd: subHours(7.99),
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
       thumbnailUrl:
-        "https://placehold.co/600x400/dc2626/ffffff?text=Resolved+Gun",
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: true,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
+      resolved: false,
+    },
+    {
+      cameraId: camera3.id,
+      type: "Face Recognised",
+      tsStart: subHours(72),
+      tsEnd: subHours(71.99),
+      thumbnailUrl:
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW11Z3g1d2g3d3g1d2g3d3g1d2g3d3g1d2g3d3g1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11gZB5BqjYq7a8/giphy.gif",
       resolved: true,
     },
   ];
 
-  for (const { camera, ...incidentData } of incidentsToCreate) {
-    await prisma.incident.create({
-      data: { ...incidentData, cameraId: camera.id },
-    });
+  for (const data of incidentsData) {
+    await prisma.incident.create({ data });
   }
-
-  console.log("Seeding complete.");
+  console.log(`Seeding finished. Created ${incidentsData.length} incidents.`);
 }
 
 main()
