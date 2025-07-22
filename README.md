@@ -2,7 +2,7 @@
 
 This repository contains the complete submission for the SecureSight technical assessment. The project includes a full-stack CCTV monitoring dashboard and a professional, 3D product landing page, showcasing a wide range of frontend and backend development skills.
 
-**Live URL:** `[Your Deployed URL Here]`
+**Live URL:** `https://secure-sight-psi.vercel.app/`
 
 ---
 
@@ -24,7 +24,7 @@ This repository contains the complete submission for the SecureSight technical a
 * **Interactive Camera Timeline:** A professional, multi-track timeline component that visualizes all incidents across all cameras over a 24-hour period.
     * Features a draggable scrubber that snaps to the nearest incident.
     * Intelligently adapts its layout for mobile, tablet, and desktop screens for optimal user experience.
-* **Professional 3D Product Page:** A stunning, "Apple-style" product landing page built with React Three Fiber to showcase the "MandlacX Edge Processor." (See it live at `/product-3d`)
+* **Professional 3D Product Page:** A stunning, "Apple-style" product landing page built with React Three Fiber to showcase the "MandlacX Edge Processor." (See it live at `https://secure-sight-psi.vercel.app//product-3d`)
     * Features a large, central 3D model with a cinematic entrance animation.
     * Includes a second 3D scene with a different layout and lighting.
     * Uses Framer Motion for premium, scroll-triggered animations and a professional feel.
