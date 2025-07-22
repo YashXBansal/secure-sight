@@ -1,24 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 
-export async function GET(request: NextRequest) {
-  // <-- This is the fix
-  try {
-    // The rest of your code is perfect and doesn't need to change.
-    const { searchParams } = new URL(request.url);
-    const resolvedParam = searchParams.get("resolved");
+// Define the context type explicitly to avoid any build-time bugs
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
 
-    const where = resolvedParam ? { resolved: resolvedParam === "true" } : {};
-
-    const incidents = await db.incident.findMany({
-      where,
-      include: { camera: true },
-      orderBy: { tsStart: "desc" },
-    });
-
-    return NextResponse.json(incidents);
-  } catch (error) {
-    console.error("Error fetching incidents:", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
-  }
+export async function PATCH(request: NextRequest, context: RouteContext) {
+  const incidentId = context.params.id;
+  
+  // Return a simple JSON response without touching the database or anything else.
+  // This is just to see if the build process can handle the file at all.
+  return NextResponse.json({ 
+    message: `Build test successful for incident ID: ${incidentId}` 
+  });
 }
