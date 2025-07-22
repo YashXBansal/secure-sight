@@ -9,15 +9,17 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50">
+    <nav className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
             <div className="flex-shrink-0 flex items-center space-x-2">
               <ShieldCheck className="h-8 w-8 text-blue-500" />
-              <span className="text-xl font-bold text-white">SecureSight</span>
+              <span className="text-xl font-bold text-white tracking-wider">
+                SecureSight
+              </span>
             </div>
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-2">
               <a
                 href="#"
                 className="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-2"
@@ -58,7 +60,7 @@ const Navbar = () => {
             </button>
             <div className="flex items-center space-x-3">
               <img
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full ring-2 ring-slate-600"
                 src={avatarSrc}
                 alt="User avatar"
                 width={32}
@@ -70,8 +72,10 @@ const Navbar = () => {
                 }}
               />
               <div className="hidden sm:block">
-                <p className="text-sm font-medium text-white">Mohammed Ajhas</p>
-                <p className="text-xs text-slate-400">ajhas@mandlacx.com</p>
+                <p className="text-sm font-medium text-white">Yash Bansal</p>
+                <p className="text-xs text-slate-400">
+                  yashbansal26.dev@gmail.com
+                </p>
               </div>
             </div>
           </div>
