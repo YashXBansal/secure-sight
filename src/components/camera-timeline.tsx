@@ -1,4 +1,3 @@
-// components/CameraTimeline.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -20,7 +19,6 @@ interface CameraTimelineProps {
   selectedIncidentId?: string | null;
 }
 
-// Helper for professional timeline styles
 const getIncidentTypeDetails = (type: string, resolved: boolean) => {
   if (resolved) {
     return {
@@ -89,7 +87,6 @@ const CameraTimeline = ({
   const [scrubberPosition, setScrubberPosition] = useState(15);
   const [timelineWidth, setTimelineWidth] = useState(800);
 
-  // Check screen size on mount and on resize to set the view mode
   useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
@@ -154,7 +151,6 @@ const CameraTimeline = ({
     }
   };
 
-  // This useEffect now correctly depends on the values it uses.
   useEffect(() => {
     const selectedMarker = allIncidentMarkers.find(
       (m) => m.id === selectedIncidentId
@@ -162,12 +158,10 @@ const CameraTimeline = ({
     if (selectedMarker) {
       setScrubberPosition(selectedMarker.position);
     }
-    // FIXED: Added the missing dependencies to the array.
   }, [selectedIncidentId, allIncidentMarkers]);
 
   const renderTimelineContent = () => {
     if (viewMode === "mobile") {
-      // =================== MOBILE SVG TIMELINE ===================
       return (
         <svg
           ref={svgRef}
@@ -263,7 +257,6 @@ const CameraTimeline = ({
       );
     }
 
-    // =================== TABLET & DESKTOP PROFESSIONAL TIMELINE ===================
     return (
       <div className="flex w-full">
         <div className="w-32 md:w-40 pr-4 border-r border-slate-700/50 flex-shrink-0">

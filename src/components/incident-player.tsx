@@ -10,7 +10,6 @@ interface CameraDisplayProps {
   activeIncidentUrl?: string | null;
 }
 
-// A reusable component for a single camera display
 const CameraView = ({
   camera,
   isMain,
@@ -18,7 +17,6 @@ const CameraView = ({
 }: CameraDisplayProps) => {
   if (!camera) return <div className="w-full h-full bg-black rounded-md"></div>;
 
-  // If there's an active incident URL, use it. Otherwise, use the camera's live feed.
   const sourceUrl = activeIncidentUrl || camera.liveFeedUrl;
   const isVideo = sourceUrl.endsWith(".mp4");
 
@@ -85,7 +83,6 @@ const IncidentPlayer = ({
   thumb2,
   activeIncident,
 }: IncidentPlayerProps) => {
-  // Determine if the main display should show incident footage
   const mainDisplayIncidentUrl =
     activeIncident && activeIncident.camera.id === mainCam?.id
       ? activeIncident.thumbnailUrl

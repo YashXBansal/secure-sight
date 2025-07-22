@@ -8,8 +8,6 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 
-// --- ICONS (Replaced lucide-react for portability) ---
-
 const IconShieldCheck = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -119,19 +117,15 @@ const IconClock = () => (
   </svg>
 );
 
-// --- 3D MODEL ---
-// This is your actual GLB model component.
 const ProcessorModel = React.forwardRef<
   Group,
   { scale?: number | [number, number, number] }
 >((props, ref) => {
-  // NOTE: Make sure the 'processor_model.glb' file is placed in the 'public' directory of your Next.js project.
   const { scene } = useGLTF("/processor_model.glb");
 
   useEffect(() => {
     scene.traverse((child) => {
       if (child instanceof Mesh) {
-        // You can apply materials or other properties to the model's meshes here.
         child.castShadow = true;
         child.receiveShadow = true;
       }
@@ -141,26 +135,18 @@ const ProcessorModel = React.forwardRef<
   return <primitive object={scene.clone()} ref={ref} {...props} />;
 });
 ProcessorModel.displayName = "ProcessorModel";
-// Preload the model for faster loading.
+
 useGLTF.preload("/processor_model.glb");
 
-// --- 3D SCENE COMPONENTS ---
-
 const HeroScene = () => {
-  // Correctly typed the ref to avoid 'never' type errors.
   const modelRef = useRef<Group>(null!);
-  // FIX: Significantly increased the target scale for a much larger model.
+
   const targetScale = new Vector3(80, 80, 80);
 
   useFrame((state, delta) => {
     if (modelRef.current) {
-      // Gentle rotation
       modelRef.current.rotation.y += delta * 0.1;
-
-      // Smooth scaling animation on load
       modelRef.current.scale.lerp(targetScale, 0.05);
-
-      // Add a subtle "breathing" effect for a more dynamic feel
       const pulse = Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
       modelRef.current.position.y = pulse;
     }
@@ -168,7 +154,6 @@ const HeroScene = () => {
 
   return (
     <>
-      {/* Enhanced lighting for a more dramatic and professional look */}
       <hemisphereLight intensity={0.5} groundColor="black" />
       <spotLight
         position={[20, 20, 10]}
@@ -188,9 +173,7 @@ const HeroScene = () => {
 };
 
 const FeatureScene = () => {
-  // Correctly typed the ref.
   const modelRef = useRef<Group>(null!);
-  // The useFrame hook has been removed to make the model still.
 
   return (
     <>
@@ -198,16 +181,12 @@ const FeatureScene = () => {
       <directionalLight position={[10, 10, 10]} intensity={1} />
       <Environment preset="dawn" />
       <Suspense fallback={null}>
-        {/* FIX: Set the final scale directly to make the model appear static. */}
         <ProcessorModel ref={modelRef} scale={100} />
       </Suspense>
     </>
   );
 };
 
-// --- UI COMPONENTS ---
-
-// Added explicit prop types.
 interface FeatureCardProps {
   icon: ReactNode;
   title: string;
@@ -243,7 +222,6 @@ const FeatureCard = ({ icon, title, children }: FeatureCardProps) => {
   );
 };
 
-// Added explicit prop types.
 interface AnnotationProps {
   position: string;
   title: string;
@@ -277,7 +255,6 @@ const Annotation = ({
       >
         {title}
       </motion.h3>
-      {/* FIX: Changed motion.p to motion.div to prevent nesting a <ul> inside a <p> */}
       <motion.div
         className="text-xs sm:text-sm text-gray-400"
         initial={{ opacity: 0, y: 10 }}
@@ -289,8 +266,6 @@ const Annotation = ({
     </div>
   </motion.div>
 );
-
-// --- MAIN PAGE ---
 
 const Product3DPage = () => {
   return (
@@ -313,7 +288,7 @@ const Product3DPage = () => {
             <Canvas
               shadows
               dpr={[1, 2]}
-              camera={{ fov: 45, position: [0, 0, 15] }} // Pulled camera back for the larger model
+              camera={{ fov: 45, position: [0, 0, 15] }}
             >
               <HeroScene />
               <OrbitControls
@@ -395,7 +370,6 @@ const Product3DPage = () => {
               </h2>
             </div>
 
-            {/* FIX: Restructured the feature section layout */}
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <FeatureCard
                 icon={<IconTarget />}
@@ -420,8 +394,6 @@ const Product3DPage = () => {
                 built to evolve with your needs.
               </FeatureCard>
             </div>
-
-            {/* FIX: Centered the Canvas container to align with other content blocks */}
             <div className="max-w-4xl mx-auto h-[400px] lg:h-[500px] my-16 lg:my-24">
               <Canvas dpr={[1, 2]} shadows camera={{ fov: 40 }}>
                 <FeatureScene />

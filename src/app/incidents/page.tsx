@@ -1,5 +1,4 @@
-// app/incidents/page.tsx
-"use client"; // This page needs state for filtering
+"use client";
 
 import { useState, useEffect } from "react";
 import Navbar from "@/components/navbar";

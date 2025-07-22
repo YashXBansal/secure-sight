@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 "use client";
 
 import {
@@ -11,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link"; // Use Next.js Link for client-side navigation
+import Link from "next/link";
 import Image from "next/image";
 
 interface NavbarProps {

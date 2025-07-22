@@ -1,11 +1,9 @@
-// app/cameras/page.tsx
 import Navbar from "@/components/navbar";
 import { PrismaClient } from "@prisma/client";
 import { Wifi, WifiOff } from "lucide-react";
 
 const prisma = new PrismaClient();
 
-// This is a Server Component, so we can fetch data directly
 const CamerasPage = async () => {
   const cameras = await prisma.camera.findMany({
     orderBy: { name: "asc" },
@@ -42,7 +40,6 @@ const CamerasPage = async () => {
                     </h2>
                     <p className="text-sm text-slate-400">{camera.location}</p>
                   </div>
-                  {/* Mocking online/offline status for visual flair */}
                   <div
                     className={`flex items-center space-x-2 text-sm ${
                       index % 4 === 0 ? "text-red-400" : "text-green-400"

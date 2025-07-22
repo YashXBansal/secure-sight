@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
-  // <-- This is the fix
   try {
-    // The rest of your code is perfect and doesn't need to change.
     const { searchParams } = new URL(request.url);
     const resolvedParam = searchParams.get("resolved");
 

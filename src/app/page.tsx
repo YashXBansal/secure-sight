@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -49,7 +48,6 @@ export default function Home() {
         );
         setAllIncidents(combinedIncidents);
 
-        // This part is new: we derive cameras directly inside the effect
         const cameras = Array.from(
           new Map(
             combinedIncidents
@@ -58,8 +56,6 @@ export default function Home() {
           ).values()
         );
         setAllCameras(cameras);
-
-        // And set the initial state based on the fetched data
         if (combinedIncidents.length > 0) {
           const initialIncident = combinedIncidents[0];
           const initialCam = initialIncident.camera;
@@ -79,9 +75,6 @@ export default function Home() {
       }
     };
     fetchData();
-    // FIXED: The dependency array is now empty [].
-    // This tells React to run this effect ONLY ONCE when the component mounts.
-    // This stops the infinite loop of GET requests.
   }, []);
 
   const handleResolveIncident = (incidentId: string) => {
