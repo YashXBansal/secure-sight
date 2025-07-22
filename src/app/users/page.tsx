@@ -1,6 +1,7 @@
 // app/users/page.tsx
 import Navbar from "@/components/navbar";
 import { Plus } from "lucide-react";
+import Image from "next/image";
 
 const users = [
   {
@@ -81,10 +82,12 @@ const UsersPage = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <img
+                          <Image
                             className="h-10 w-10 rounded-full"
                             src={user.avatar}
                             alt=""
+                            width={48}
+                            height={48}
                           />
                         </div>
                         <div className="ml-4">

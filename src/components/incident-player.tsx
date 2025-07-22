@@ -2,6 +2,7 @@
 
 import { Video, Camera as CameraIcon } from "lucide-react";
 import type { IncidentWithCamera, Camera } from "@/types/incident";
+import Image from "next/image";
 
 interface CameraDisplayProps {
   camera: Camera | null;
@@ -34,7 +35,7 @@ const CameraView = ({
           playsInline
         />
       ) : (
-        <img
+        <Image
           key={sourceUrl}
           src={sourceUrl}
           alt={camera.name}
@@ -60,7 +61,12 @@ const CameraView = ({
           />
           <span>{camera.name}</span>
         </h3>
-        {isMain && <p className="text-slate-300 text-sm">{camera.location}</p>}
+        {isMain && (
+          <p className="text-slate-300 text-sm">
+            <CameraIcon size={14} className="text-white" />
+            {camera.location}
+          </p>
+        )}
       </div>
     </div>
   );

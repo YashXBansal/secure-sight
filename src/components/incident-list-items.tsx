@@ -9,6 +9,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import type { IncidentWithCamera } from "@/types/incident";
+import Image from "next/image";
 
 const formatDateTime = (start: string) => {
   const startDate = new Date(start);
@@ -75,7 +76,7 @@ const IncidentListItem = ({
                      : "bg-slate-800 hover:bg-slate-700/50"
                  }`}
     >
-      <img
+      <Image
         src={incident.thumbnailUrl}
         alt={incident.type}
         width={96}

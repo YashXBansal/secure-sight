@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    domains: ["i.pravatar.cc", "media.giphy.com"],
+  },
   webpack: (config, options) => {
     config.module.rules.push({
       test: /\.(glb|gltf)$/,

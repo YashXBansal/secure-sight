@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link"; // Use Next.js Link for client-side navigation
+import Image from "next/image";
 
 interface NavbarProps {
   activePage?: "dashboard" | "cameras" | "incidents" | "users";
@@ -78,7 +79,7 @@ const Navbar = ({ activePage = "dashboard" }: NavbarProps) => {
               </span>
             </button>
             <div className="flex items-center space-x-3">
-              <img
+              <Image
                 className="h-8 w-8 rounded-full ring-2 ring-slate-600"
                 src={avatarSrc}
                 alt="User avatar"
