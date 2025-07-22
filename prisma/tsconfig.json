@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "es2017",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "lib": ["es2015"],
+  "include": ["**/*.ts"]
+}
